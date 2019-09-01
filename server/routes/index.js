@@ -1,7 +1,7 @@
 const express = require('express')
 const postController = require('../controllers/postController')
 const authController = require('../controllers/authController')
-const groupController = require('../controllers/groupController')
+
 
 const router = express.Router()
 
@@ -21,7 +21,5 @@ router.delete('/api/posts/:postId', authController.protect, postController.delet
 router.post('/api/users/create', authController.createAccount)
 router.post('/api/users/login', authController.login)
 
-router.post('/api/groups/create', authController.protect, groupController.createGroup)
-router.get('/api/groups/:groupId', groupController.fetchGroupInfo)
 
 module.exports = router

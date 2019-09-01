@@ -12,10 +12,7 @@ exports.createGroup = async (req, res) => {
       }],
     })
   
-    const populated = await group.populate({
-      path: 'createdBy',
-      select: 'name',
-    }).populate('members.user', 'name').execPopulate()
+    const populated = await group.populate('members.user', 'name').execPopulate()
   
     res.status(201).json({
       message: 'success',
@@ -29,7 +26,7 @@ exports.createGroup = async (req, res) => {
 
 exports.fetchGroupInfo = async (req, res) => {
   try {
-    const group = await Group.findById(req.params.groupId).populate('createdBy', 'name')
+    const group = await Group.findOne({ _id: req.params.groupId }).populate('createdBy', 'name')
     console.log(group)
   
     if (!group) {
@@ -43,7 +40,29 @@ exports.fetchGroupInfo = async (req, res) => {
       data: group,
     })
   } catch (e) {
-    res.json({ message: 'fail' })
+    res.json({ message: e.message })
   }
 
 }
+
+// exports.fetchGroupInfoFromSlug = async (req, res) => {
+//   try {
+//     console.log(req.params.groupId)
+//     const group = await Group.findOne({ slug: req.params.slug }).populate('createdBy', 'name')
+//     console.log(group)
+  
+//     if (!group) {
+//       res.staus(404).json({
+//         message: 'fail',
+//       })
+//     }
+  
+//     res.status(200).json({
+//       message: 'success',
+//       data: group,
+//     })
+//   } catch (e) {
+//     res.json({ message: e.message })
+//   }
+
+// }

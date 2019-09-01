@@ -1,10 +1,21 @@
 const mongoose = require('mongoose')
+const slugify = require('slugify')
+const crypto = require('crypto')
+// const slug = require('mongoose-slug-updater')
+
+// mongoose.plugin(slug)
 
 const groupSchema = new mongoose.Schema({
   name: {
     type: String,
+    trim: true,
+    maxlength: 30,
     unique: [true, 'Group name must be unique'],
     required: [true, 'Group name is required'],
+  },
+  slug: {
+    type: String,
+    unique: true,
   },
   createdAt: {
     type: Date,
@@ -32,6 +43,28 @@ const groupSchema = new mongoose.Schema({
       },
     },
   ],
+}, {
+  toJSON: { virtuals: true }, // when data is outputted it should use virtual fields
+  toObject: { virtuals: true },
+})
+
+groupSchema.virtual('membersLength').get(function () {
+  return this.members.length
+})
+
+groupSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'createdBy',
+    select: '-__v -password -createdAt',
+  })
+  next()
+})
+
+groupSchema.pre('save', function (next) {
+  const slug = slugify(this.name, { lower: true })
+  const randChars = crypto.randomBytes(2).toString('hex')
+  this.slug = slug + '-' + randChars
+  next()
 })
 
 const Group = mongoose.model('Group', groupSchema)

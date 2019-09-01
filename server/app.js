@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const routes = require('./routes')
+const groupRoutes = require('./routes/groupRoutes')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -41,12 +42,10 @@ app.prepare().then(() => {
     const { status = 500, message } = err
     res.status(status).json(message)
   })
-  server.use((req, res, next) => {
-    // console.log(req.cookies)
-    next()
-  })
+
   /* apply routes from the "routes" folder */
   server.use('/', routes)
+  server.use('/api/groups', groupRoutes)
 
   /* default route
     - allows Next to handle all other routes
