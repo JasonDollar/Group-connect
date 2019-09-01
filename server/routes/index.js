@@ -9,6 +9,11 @@ router.get('/api/hello', (req, res) => {
   })
 })
 
+router.get('/api/posts', postController.fetchAllPosts)
 router.post('/api/posts', postController.createPost)
+
+router.get('/api/posts/:postId', postController.fetchSinglePost)
+router.patch('/api/posts/:postId', postController.updatePost)
+router.delete('/api/posts/:postId', postController.deletePost)
 
 module.exports = router
