@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const routes = require('./routes')
 const groupRoutes = require('./routes/groupRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -46,6 +47,7 @@ app.prepare().then(() => {
   /* apply routes from the "routes" folder */
   server.use('/', routes)
   server.use('/api/groups', groupRoutes)
+  server.use('/api/user', userRoutes)
 
   /* default route
     - allows Next to handle all other routes
