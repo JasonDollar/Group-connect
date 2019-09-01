@@ -1,0 +1,21 @@
+{
+  "name": "group",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon ./server/app.js",
+    "build": "next build",
+    "start": "node ./server/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.11",
+    "next": "9.0.5",
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
