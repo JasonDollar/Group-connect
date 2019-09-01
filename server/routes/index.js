@@ -1,5 +1,6 @@
 const express = require('express')
 const postController = require('../controllers/postController')
+const authController = require('../controllers/authController')
 
 const router = express.Router()
 
@@ -15,5 +16,8 @@ router.post('/api/posts', postController.createPost)
 router.get('/api/posts/:postId', postController.fetchSinglePost)
 router.patch('/api/posts/:postId', postController.updatePost)
 router.delete('/api/posts/:postId', postController.deletePost)
+
+router.post('/api/users/create', authController.createAccount)
+router.post('/api/users/login', authController.login)
 
 module.exports = router

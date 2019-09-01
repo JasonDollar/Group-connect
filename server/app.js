@@ -2,6 +2,7 @@ const express = require('express')
 const next = require('next')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
+const cookieParser = require('cookie-parser')
 const routes = require('./routes')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -24,6 +25,7 @@ mongoose.connection.on('error', err => {
 app.prepare().then(() => {
   const server = express()
   server.use(express.json())
+  server.use(cookieParser())
 
   /* give all Next.js's requests to Next.js server */
   server.get('/_next/*', (req, res) => {
