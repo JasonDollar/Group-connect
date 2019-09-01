@@ -22,5 +22,6 @@ router.post('/api/users/create', authController.createAccount)
 router.post('/api/users/login', authController.login)
 
 router.post('/api/groups/create', authController.protect, groupController.createGroup)
+router.get('/api/groups/:groupId', groupController.fetchGroupInfo)
 
 module.exports = router

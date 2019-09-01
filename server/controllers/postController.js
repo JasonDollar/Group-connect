@@ -23,7 +23,7 @@ exports.createPost = async (req, res) => {
 }
 
 exports.updatePost = async (req, res) => {
-  const updatedPost = await Post.findOneAndUpdate({ _id: req.params.postId }, req.body, { new: true })
+  const updatedPost = await Post.findOneAndUpdate({ _id: req.params.postId, createdBy: req.user._id }, req.body, { new: true })
 
   res.status(200).json({
     message: 'success',
@@ -32,7 +32,7 @@ exports.updatePost = async (req, res) => {
 }
 
 exports.deletePost = async (req, res) => {
-  await Post.findByIdAndDelete(req.params.postId)
+  await Post.findOneAndDelete({ _id: req.params.postId, createdBy: req.user._id })
 
   res.status(204).json({
     message: 'success',

@@ -28,14 +28,22 @@ const createAndSendToken = (user, statusCode, res) => {
 }
 
 exports.createAccount = async (req, res) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-  })
+  try {
+    const newUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+    })
+  
+    createAndSendToken(newUser, 201, res)
+  } catch(e) {
+    res.status(404).json({
+      message: 'fail',
+      details: e.message
+    })
+  }
 
-  createAndSendToken(newUser, 201, res)
 }
 
 exports.login = async (req, res, next) => {
