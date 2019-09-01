@@ -9,8 +9,12 @@ exports.fetchSinglePost = async (req, res) => {
 }
 
 exports.createPost = async (req, res) => {
-  console.log(req.body)
-  const post = await new Post(req.body).save()
+  const post = await new Post({
+    ...req.body,
+    createdBy: req.user._id,
+  }).save()
+
+  await post.populate('createdBy', 'name').execPopulate()
 
   res.status(201).json({
     message: 'success',

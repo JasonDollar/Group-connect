@@ -9,6 +9,11 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Post must belong to an user'],
+  },
 })
 
 const Post = mongoose.model('Post', postSchema)

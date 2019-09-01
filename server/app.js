@@ -3,6 +3,7 @@ const next = require('next')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 const routes = require('./routes')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -35,14 +36,17 @@ app.prepare().then(() => {
   server.get('/static/*', (req, res) => {
     handle(req, res)
   })
-  /* apply routes from the "routes" folder */
-  server.use('/', routes)
-
   /* Error handling from async / await functions */
   server.use((err, req, res, next) => {
     const { status = 500, message } = err
     res.status(status).json(message)
   })
+  server.use((req, res, next) => {
+    // console.log(req.cookies)
+    next()
+  })
+  /* apply routes from the "routes" folder */
+  server.use('/', routes)
 
   /* default route
     - allows Next to handle all other routes
