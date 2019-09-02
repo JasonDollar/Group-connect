@@ -15,11 +15,11 @@ exports.createGroup = async (req, res) => {
     const populated = await group.populate('members.user', 'name').execPopulate()
   
     res.status(201).json({
-      message: 'success',
+      status: 'success',
       data: populated,
     })
   } catch (e) {
-    res.json({ message: e.message })
+    res.json({ status: 'error', message: e.message })
   }
 
 }
@@ -27,42 +27,38 @@ exports.createGroup = async (req, res) => {
 exports.fetchGroupInfo = async (req, res) => {
   try {
     const group = await Group.findOne({ _id: req.params.groupId }).populate('createdBy', 'name')
-    console.log(group)
+    // console.log(group)
   
     if (!group) {
-      res.staus(404).json({
-        message: 'fail',
+      return res.staus(404).json({
+        status: 'fail',
+        message: 'No group found',
       })
     }
   
     res.status(200).json({
-      message: 'success',
+      status: 'success',
       data: group,
     })
   } catch (e) {
-    res.json({ message: e.message })
+    res.json({ status: 'error', message: e.message })
   }
 
 }
 
-// exports.fetchGroupInfoFromSlug = async (req, res) => {
-//   try {
-//     console.log(req.params.groupId)
-//     const group = await Group.findOne({ slug: req.params.slug }).populate('createdBy', 'name')
-//     console.log(group)
+exports.fetchGroups = async (req, res) => {
+  try {
+    const groups = await Group.find({ private: false })
+    console.log(groups)
+    res.status(200).json({
+      status: 'success',
+      data: groups,
+    })
+  } catch (e) {
+    return res.status(500).json({
+      status: 'error',
+      error: e,
+    })
+  }
   
-//     if (!group) {
-//       res.staus(404).json({
-//         message: 'fail',
-//       })
-//     }
-  
-//     res.status(200).json({
-//       message: 'success',
-//       data: group,
-//     })
-//   } catch (e) {
-//     res.json({ message: e.message })
-//   }
-
-// }
+}

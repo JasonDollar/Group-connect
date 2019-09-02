@@ -4,7 +4,7 @@ const authController = require('../controllers/authController')
 
 const router = express.Router()
 
-// router.get('/', groupController.fetchGroups)
+router.get('/', groupController.fetchGroups)
 router.post('/', authController.protect, groupController.createGroup)
 
 router.get('/:groupId', groupController.fetchGroupInfo)

@@ -4,7 +4,7 @@ const Group = require('../models/Group')
 exports.getLoggedInUserInfo = async (req, res) => {
   // const user = User.findById(req.user._id)
   res.status(200).json({
-    message: 'success',
+    status: 'success',
     data: req.user,
   })
 }
@@ -21,7 +21,7 @@ exports.getGroupsWithUserMembership = async (req, res) => {
   //   },
   // })
   res.status(200).json({
-    message: 'success',
+    status: 'success',
     data: groups,
   })
   console.log(groups)

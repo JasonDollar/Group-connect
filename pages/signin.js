@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
-import { createAccount } from '../lib/api'
+import { loginUser } from '../lib/api'
 
 const signup = () => {
-  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [error, setError] = useState('')
   const handleSubmit = async e => {
     e.preventDefault()
-    const data = await createAccount(name, email, password, passwordConfirm)
-    console.log(data)
+    try {
+
+      const data = await loginUser(email, password)
+      console.log(data)
+    } catch (e) {
+      setError(e)
+    }
   }
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" value={name} onChange={e => setName(e.target.value)} />
-        </div>
+
         <div>
           <label htmlFor="email">Email:</label>
           <input type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
@@ -26,10 +27,7 @@ const signup = () => {
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
-        <div>
-          <label htmlFor="passwordConfirm">Confirm Password:</label>
-          <input type="password" id="passwordConfirm" value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
-        </div>
+        {error && <p>{error.response.data.message}</p>}
         <button type="submit">Submit</button>
       </form>
     </div>

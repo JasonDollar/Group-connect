@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import fetch from 'isomorphic-unfetch'
+import { getSingleGroupInfo } from '../../../lib/api'
 
 const groupPage = props => {
-  const getData = async id => {
-    const data = await axios.get(`/api/groups/${id}`)
-    console.log(data)
-    return data
-  }
+  const [groupInfo, setGroupInfo] = useState({
+    name: '',
+  })
   const router = useRouter()
   const { id } = router.query
   useEffect(() => {
-    getData(id)
+    getSingleGroupInfo(id)
+      .then(res => {
+        console.log(res)
+        setGroupInfo(res.data.data)
+      })
 
   }, [])
   console.log(props)
   return (
     <div>
-      s
+      <h1>{groupInfo.name}</h1>
     </div>
   )
 }

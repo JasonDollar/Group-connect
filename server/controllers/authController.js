@@ -37,10 +37,10 @@ exports.createAccount = async (req, res) => {
     })
   
     createAndSendToken(newUser, 201, res)
-  } catch(e) {
+  } catch (e) {
     res.status(404).json({
-      message: 'fail',
-      details: e.message
+      status: 'fail',
+      message: e.message,
     })
   }
 
@@ -50,20 +50,27 @@ exports.login = async (req, res, next) => {
   const { email, password } = req.body
   if (!email || !password) {
     return res.status(400).json({
-      message: 'fail',
-      data: 'You must provide email and password',
+      status: 'fail',
+      message: 'You must provide email and password',
     })
   }
-  const user = await User.findOne({ email }).select('+password')
-  // +password - if we want to select field which is set to not be selectable  in schema
-  const isMatch = user ? await user.correctPassword(password, user.password) : false
-  if (!user || !isMatch) {
-    return res.status(401).json({
+  try {
+    const user = await User.findOne({ email }).select('+password')
+    // +password - if we want to select field which is set to not be selectable  in schema
+    const isMatch = user ? await user.correctPassword(password, user.password) : false
+    if (!user || !isMatch) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Incorrect email or password',
+      })
+    }
+    createAndSendToken(user, 200, res)
+
+  } catch (e) {
+    res.status(500).json({
       message: 'fail',
-      data: 'Incorrect email or password',
     })
   }
-  createAndSendToken(user, 200, res)
 }
 
 exports.protect = async (req, res, next) => {
