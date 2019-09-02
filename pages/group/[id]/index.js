@@ -16,7 +16,7 @@ const groupPage = ({ groupInfo }) => {
   //     })
 
   // }, [])
-  console.log(groupInfo)
+  // console.log(groupInfo)
   return (
     <div>
       <h1>{groupInfo.data.name}</h1>

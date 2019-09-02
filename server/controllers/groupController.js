@@ -50,7 +50,7 @@ exports.fetchGroups = async (req, res) => {
   try {
     // throw new Error('test error')
     const groups = await Group.find({ private: false })
-    console.log(groups)
+    // console.log(groups)
     res.status(200).json({
       status: 'success',
       data: groups,
