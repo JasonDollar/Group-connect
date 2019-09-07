@@ -6,38 +6,30 @@ import { getAllGroups } from '../../lib/api'
 const GroupPage = props => (
     <div>
       <p>groups all</p>
-      {props.groups && props.groups.map(item => (
-        <Link
-          key={item.id}
-          href={{
-            pathname: `/group/${item.id}`,
-            query: { n: item.slug },
-          }}
-          // as={`/group/${item.slug}`}
-        >
-          <a>
+      <ul>
 
-          {item.name}
-          </a>
-        </Link>
-      ))}
+        {props.groups && props.groups.map(item => (
+          <li key={item.id}>
+            <Link
+              
+              href={{
+                pathname: `/group/${item.hashid}`,
+                query: { n: item.slug },
+              }}
+              // as={`/group/${item.slug}`}
+            >
+              <a>
+
+              {item.name}
+              </a>
+            </Link>
+
+          </li>
+        ))}
+      </ul>
       {/* {props.error && <p>{props.error.response.data.message}</p>} */}
     </div>
 )
-
-// const [groups, setGroups] = useState([])
-// console.log(props)
-// useEffect(() => {
-// getAllGroups()
-//   .then(data => {
-
-//     if (data.message = 'success') {
-//       setGroups(data.data)
-//     }
-//   })
-//   .catch(e => console.log(e))
-// change 'success' string for const variable
-// }, [])
 
 
 

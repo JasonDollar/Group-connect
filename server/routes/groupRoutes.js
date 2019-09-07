@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', groupController.fetchGroups)
 router.post('/', authController.protect, groupController.createGroup)
 
-router.get('/:groupId', groupController.fetchGroupInfo)
+router.get('/:groupId', authController.getUserInfoFromCookie, groupController.fetchGroupInfo)
 // router.get('/:slug', groupController.fetchGroupInfoFromSlug)
 // router.patch('/:groupId', groupController.updateGroupInfo)
 // router.delete('/:groupId', groupController.deleteGroup)

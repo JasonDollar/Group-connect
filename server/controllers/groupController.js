@@ -1,4 +1,5 @@
 const Group = require('../models/Group')
+const { decodeHashId } = require('../lib/hashid')
 
 exports.createGroup = async (req, res) => {
   try {
@@ -26,8 +27,12 @@ exports.createGroup = async (req, res) => {
 
 exports.fetchGroupInfo = async (req, res) => {
   try {
-    const group = await Group.findOne({ _id: req.params.groupId }).populate('createdBy', 'name')
-    // console.log(group)
+    const groupId = decodeHashId(req.params.groupId)
+    console.log(groupId)
+    const group = await Group.findOne({ _id: groupId }).populate('createdBy', 'name')
+    // const isMember = group.members.find(item => item.user === req.user._id)
+    // console.log(group.members, req.user._id)
+    // console.log(group.members[0].user === req.user._id)
   
     if (!group) {
       return res.staus(404).json({

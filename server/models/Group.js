@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
 const crypto = require('crypto')
-// const slug = require('mongoose-slug-updater')
+const { encodeHashId } = require('../lib/hashid')
 
 // mongoose.plugin(slug)
 
@@ -17,6 +17,7 @@ const groupSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  hashid: String,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -64,6 +65,12 @@ groupSchema.pre('save', function (next) {
   const slug = slugify(this.name, { lower: true })
   const randChars = crypto.randomBytes(2).toString('hex')
   this.slug = slug + '-' + randChars
+  next()
+})
+
+groupSchema.pre('save', function (next) {
+  const hashed = encodeHashId(this._id)
+  this.hashid = hashed
   next()
 })
 
