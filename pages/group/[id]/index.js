@@ -26,9 +26,9 @@ const groupPage = ({ groupInfo }) => {
 
 export default groupPage
 
-groupPage.getInitialProps = async ({ query }) => {
-  // console.log(query)
-  const res = await getSingleGroupInfo(query.id)
+groupPage.getInitialProps = async ({ query, req }) => {
+  console.log(req.cookies)
+  const res = await getSingleGroupInfo(query.id, req.cookies)
   // const data = res.json()
   return { groupInfo: res.data }
 }

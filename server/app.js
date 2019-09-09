@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const next = require('next')
 const mongoose = require('mongoose')
-const dotenv = require('dotenv').config()
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const routes = require('./routes')

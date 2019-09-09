@@ -28,11 +28,10 @@ exports.createGroup = async (req, res) => {
 exports.fetchGroupInfo = async (req, res) => {
   try {
     const groupId = decodeHashId(req.params.groupId)
-    console.log(groupId)
     const group = await Group.findOne({ _id: groupId }).populate('createdBy', 'name')
-    // const isMember = group.members.find(item => item.user === req.user._id)
-    // console.log(group.members, req.user._id)
-    // console.log(group.members[0].user === req.user._id)
+    const isMember = group.members.find(item => item.user === req.user._id)
+    console.log(group.members[0].user, req.user._id)
+    console.log(group.members[0].user.toString() === req.user._id.toString())
   
     if (!group) {
       return res.staus(404).json({

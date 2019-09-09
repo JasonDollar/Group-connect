@@ -100,7 +100,7 @@ exports.protect = async (req, res, next) => {
 // it is like protect but only collects user info if available, no guarding
 exports.getUserInfoFromCookie = async (req, res, next) => {
   let token
-  console.log(req.cookies)
+  // console.log({ cookies: req.cookies })
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1]
   } else if (req.cookies.jwt) {
